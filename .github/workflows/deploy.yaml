@@ -40,9 +40,9 @@ jobs:
       # copy other stuff into dist
       - name: Copy static HTML
         run: |
-          cp logo.png dist/
-          cp docs dist/
-          cp path dist/
+          cp -r logo.png dist/
+          cp -r docs dist/
+          cp -r path dist/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
