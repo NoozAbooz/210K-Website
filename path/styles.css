@@ -1,0 +1,349 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+#main-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+#canvas-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2d2d2d;
+    overflow: hidden;
+    position: relative;
+    cursor: grab;
+}
+#canvas-container:active {
+    cursor: grabbing;
+}
+#config-panel {
+    background-color: #333333;
+    padding: 15px;
+    width: 500px;
+    overflow-y: auto;
+}
+h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #a0a0a0;
+}
+.config-section {
+    margin-bottom: 15px;
+}
+select, input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: #4a4a4a;
+    border: none;
+    color: #ffffff;
+    border-radius: 4px;
+}
+button {
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+button:hover {
+    background-color: #ff79b0;
+}
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.checkbox-container input[type="checkbox"] {
+    margin-right: 8px;
+}
+#code-output {
+    background-color: #252525;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+/* Toast Notification Styles */
+.toast {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #51cc3c; /* Updated background color */
+    color: white;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+    z-index: 1;
+    transform: translateX(-50%);
+}
+
+.toast.show {
+    visibility: visible;
+    animation: fadeInOut 3s;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Editor Panel Styles */
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 500px;
+    height: 100%;
+    background-color: #333;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    color: white;
+    display: none; /* Ensure it’s hidden by default */
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.editor-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.close-button {
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: white;
+}
+
+.side-panel input,
+.side-panel select {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #444;
+    color: white;
+    border: 1px solid #555;
+}
+
+.side-panel button {
+    width: 100%;
+    padding: 10px;
+    background-color: #51cc3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.side-panel button:hover {
+    background-color: #45b32e;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Layout for options container with two columns */
+.options-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.option-column {
+    width: 45%;
+}
+
+.option-column h3 {
+    margin-bottom: 10px;
+}
+
+.option-column button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #51cc3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.option-column button:hover {
+    background-color: #45b32e;
+}
+
+/* Button Row Styling for Horizontal Layout */
+.button-row {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.button-row button {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    background-color: #51cc3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.button-row button:hover {
+    background-color: #45b32e;
+}
+
+button.reflect {
+    background-color: #87CEEB; /* Light blue color */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button.reflect:hover {
+    background-color: #6cc4e7; /* Slightly darker light blue on hover */
+}
+
+/* Save Slots Container with 2 Columns */
+.slots-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 columns */
+    gap: 20px; /* Space between slots */
+    margin-bottom: 20px; /* Added padding before the "Create New Save Slot" button */
+}
+
+.save-slot {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.save-slot .slot-info {
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.save-slot .slot-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.save-slot button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.save-slot .delete-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.save-slot .delete-button:hover {
+    background-color: #c0392b;
+}
+
+.save-slot .load-button {
+    background-color: #51cc3c;
+    color: white;
+}
+
+.save-slot .load-button:hover {
+    background-color: #45b32e;
+}
+
+.save-slot .loaded-button {
+    background-color: #8bc34a;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.save-slot .rename-button {
+    background-color: #808080;
+    color: white;
+}
+
+.save-slot .rename-button:hover {
+    background-color: #696969;
+}

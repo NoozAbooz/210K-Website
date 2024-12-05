@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>210K Path Planner</title>
+    <link rel="icon" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <script src="./js/depend/p5.min.js"></script>
+    <script src="https://kit.fontawesome.com/ea77c5ed30.js" crossorigin="anonymous"></script>
+</head>
+<body>
+	<script src="./js/generator.js"></script>
+	<script src="./js/main.js"></script>
+	<script src="./js/editor.js"></script>
+	<script src="./js/save.js"></script>
+
+    <div id="main-container">
+        <div id="canvas-container"></div>
+        <div id="config-panel">
+            <h2>Configuration</h2>
+            <div class="config-section">
+                <select id="format-select">
+                    <option value="libks-mtpoint">libKS Odom MTPoint</option>
+                    <option value="custom">Custom Format</option>
+                </select>
+            </div>
+            <div class="config-section">
+                <h2>Robot Visualization</h2>
+                <input type="number" id="robot-width" placeholder="Width" value="12">
+                <input type="number" id="robot-height" placeholder="Height" value="12">
+                <label>
+    				<input type="checkbox" id="robot-visible" checked> Visible
+				</label>
+            </div>
+            <div class="config-section">
+                <h2>Field</h2>
+                <select id="field-select" onchange="updateFieldImage()">
+                    <option value="v5rc">V5RC - High Stakes</option>
+                    <option value="v5rc-skills">V5RC Skills - High Stakes</option>
+                </select>
+                <h2>Grid Density</h2>
+                <input type="number" id="grid-density" value="3" min="1" step="1" onchange="updateGridDensity()">
+				<h2>Conversion Factor</h2>
+                <input type="number" id="conversion-factor" value="147" min="1" step="1" onchange="updateConversionFactor()">
+            </div>
+            <button onclick="copyCodeToClipboard()">Copy Code</button>
+            <button onclick="clearPath()">Clear Path</button>
+            <button onclick="openSaveOptionsModal()">Path Options</button>
+            <pre id="code-output"></pre>
+        </div>
+        <div id="toast" class="toast">Placeholder Toast</div> <!-- Toast Notification -->
+    </div>
+
+	<!-- Waypoint Editor Panel -->
+	<div id="waypoint-editor" class="side-panel">
+	    <div class="editor-header">
+        	<h2 id="editor-title">Edit Waypoint</h2>
+        	<span class="close-button" onclick="closeWaypointEditor()">×</span>
+    	</div>
+
+	    <label for="angle">Rotation (degrees):</label>
+	    <input type="number" id="angle-input"><br>
+
+		<label for="include-turn">Include Turning:</label>
+		<select id="include-turn-input">
+	        <option value="true">True</option>
+	        <option value="false">False</option>
+	    </select><br>
+
+	    <label for="forwards">Forwards:</label>
+	    <select id="forwards-input">
+	        <option value="true">True</option>
+	        <option value="false">False</option>
+	    </select><br>
+
+		<label for="angular-direction">Angular Direction:</label>
+    	<select id="angular-direction-input">
+    	    <option value="clockwise">Clockwise</option>
+    	    <option value="counter-clockwise">Counter-Clockwise</option>
+			<option value="auto">Auto</option>
+    	</select><br>
+
+	    <label for="min-speed">Minimum Speed:</label>
+	    <input type="number" id="min-speed-input" value="0"><br>
+
+	    <label for="max-speed">Maximum Speed:</label>
+	    <input type="number" id="max-speed-input" value="127"><br>
+
+	    <label for="timeout">Timeout (ms):</label>
+	    <input type="number" id="timeout-input" value="2000"><br>
+
+	    <button onclick="saveWaypointChanges()">Save</button>
+	</div>
+
+	<!-- Save Options Modal -->
+	<div id="save-options-modal" class="modal">
+	    <div class="modal-content">
+	        <span class="close-button" onclick="closeSaveOptionsModal()">×</span>
+	        <h2>Path Options</h2>
+	        <!-- Button Row -->
+	        <div class="button-row">
+	            <button onclick="exportPath()">Export Path</button>
+	            <button onclick="importPath()">Import Path</button>
+	            <button onclick="copyPathString()">Copy Path String</button>
+				<button class="reflect" onclick="reflectPathVertically()">Reflect 
+    				<i class="fa-solid fa-arrows-left-right"></i> <!-- Your existing icon here -->
+				</button>
+	        </div>
+	        <!-- Save Slots Container with 2 Columns -->
+	        <div id="save-slots-container" class="slots-container"></div>
+	        <button onclick="createNewSaveSlot()">Create New Save Slot</button>
+	        <input type="file" id="file-input" style="display: none;" accept=".json" onchange="handleFileUpload(event)">
+	    </div>
+	</div>
+
+	<script>
+	  if ('serviceWorker' in navigator) {
+	    window.addEventListener('load', () => {
+	      navigator.serviceWorker.register('/path/sw.js', { scope: '.' })
+	        .then((registration) => {
+	          console.log('Service Worker registered successfully:', registration.scope);
+	        })
+	        .catch((error) => {
+	          console.log('Service Worker registration failed:', error);
+	        });
+	    });
+	  }
+	</script>
+</body>
+</html>
