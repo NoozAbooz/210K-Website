@@ -40,7 +40,7 @@ jobs:
       # copy other stuff into dist
       - name: Copy static HTML
         run: |
-          cp -r logo.png dist/
+          cp -r logo*.png dist/
           cp -r static/* dist/
 
       - name: Setup Pages
