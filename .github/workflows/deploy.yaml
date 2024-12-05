@@ -1,4 +1,4 @@
-name: Deploy React Site
+name: Deploy Vite Site
 
 on:
   push:
@@ -41,8 +41,7 @@ jobs:
       - name: Copy static HTML
         run: |
           cp -r logo.png dist/
-          cp -r docs dist/
-          cp -r path dist/
+          cp -r static/* dist/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

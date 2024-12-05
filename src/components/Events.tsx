@@ -27,8 +27,8 @@ export function Events() {
           `${API_CONFIG.BASE_URL}/teams/${API_CONFIG.TEAM_ID}/events?season%5B%5D=${API_CONFIG.SEASON_ID}`,
           {
             headers: {
-              Authorization: `Bearer ${API_CONFIG.TOKEN}`
-            }
+              Authorization: `Bearer ${API_CONFIG.TOKEN}`,
+            },
           }
         );
         setEvents(response.data.data);
@@ -41,6 +41,11 @@ export function Events() {
 
     fetchEvents();
   }, []);
+
+  // Function to check if an event is in the past
+  const isEventPast = (endDate: string) => {
+    return new Date(endDate) < new Date();
+  };
 
   if (loading) {
     return (
@@ -74,21 +79,34 @@ export function Events() {
           {events.map((event) => (
             <div
               key={event.id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ${
+                isEventPast(event.end)
+                  ? 'opacity-100 blur-xs pointer-events-none'
+                  : ''
+              }`}
             >
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-4">{event.name}</h3>
+                <h3 className="text-xl font-semibold mb-4">
+                  {event.name}
+                  {isEventPast(event.end) && (
+                    <span className="ml-2 text-sm text-gray-500">
+                      (COMPLETED)
+                    </span>
+                  )}
+                </h3>
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <CalendarIcon className="h-5 w-5 text-pink-400" />
                     <span className="text-gray-600">
-                      {new Date(event.start).toLocaleDateString()} - {new Date(event.end).toLocaleDateString()}
+                      {new Date(event.start).toLocaleDateString()} /{' '}
+                      {new Date(event.end).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <MapPinIcon className="h-5 w-5 text-pink-400" />
                     <span className="text-gray-600">
-                      {event.location.venue}, {event.location.city}, {event.location.region}
+                      {event.location.venue}, {event.location.city},{' '}
+                      {event.location.region}
                     </span>
                   </div>
                 </div>
