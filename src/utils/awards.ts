@@ -20,8 +20,8 @@ export function calculateAwardsStats(awardsByCategory: AwardsByCategory): Awards
   return {
     total: Object.values(awardsByCategory).flat().length,
     byCategory: {
-      Excellence: awardsByCategory.Excellence.length,
-      Champion: awardsByCategory.Champion.length,
+      'Overall Excellence': awardsByCategory.Excellence.length,
+      'Tournament Champion': awardsByCategory.Champion.length,
       Other: awardsByCategory.Other.length,
     },
   };
