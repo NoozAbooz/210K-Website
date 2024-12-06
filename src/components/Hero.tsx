@@ -2,6 +2,22 @@ import React from 'react';
 import { CatIcon } from 'lucide-react';
 
 export function Hero() {
+  const scrollToAchievements = () => {
+  const achievementsSection = document.getElementById('achievements');
+  if (achievementsSection) {
+    const offset = -80; // Adjust this value to ensure the title is visible
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = achievementsSection.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition + offset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    });
+  }
+};
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-white">
       <div className="text-center space-y-8 px-4">
@@ -18,7 +34,10 @@ export function Hero() {
           We are Team 210K, a passionate group of robotics students from
           Alberta, Canada affiliated with Western Mechatronics Robotics Club.
         </p>
-        <button className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 transform hover:scale-105">
+        <button 
+          onClick={scrollToAchievements}
+          className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 transform hover:scale-105"
+        >
           Meow meow
         </button>
       </div>

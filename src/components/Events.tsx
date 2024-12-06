@@ -2,17 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CalendarIcon, MapPinIcon } from 'lucide-react';
 import { API_CONFIG } from '../config/api';
+import { EventDetails } from '../types/awards';
 
-interface Event {
-  id: number;
-  name: string;
-  start: string;
-  end: string;
-  location: {
-    venue: string;
-    city: string;
-    region: string;
-  };
+interface Event extends EventDetails {
+  startDate?: string;
 }
 
 export function Events() {
@@ -21,17 +14,54 @@ export function Events() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const fetchEventDetails = async (eventId: number) => {
+      try {
+        const response = await axios.get(
+          `${API_CONFIG.BASE_URL}/events/${eventId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${API_CONFIG.TOKEN}`
+            }
+          }
+        );
+        return response.data.data;
+      } catch (err) {
+        console.error(`Failed to fetch details for event ${eventId}`, err);
+        return null;
+      }
+    };
+
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          `${API_CONFIG.BASE_URL}/teams/${API_CONFIG.TEAM_ID}/events?season%5B%5D=${API_CONFIG.SEASON_ID}`,
+          `${API_CONFIG.BASE_URL}/teams/${API_CONFIG.TEAM_ID}/events`,
           {
-            headers: {
-              Authorization: `Bearer ${API_CONFIG.TOKEN}`,
+            params: {
+              'season[]': API_CONFIG.SEASON_ID
             },
+            headers: {
+              Authorization: `Bearer ${API_CONFIG.TOKEN}`
+            }
           }
         );
-        setEvents(response.data.data);
+
+        const eventsData = response.data.data;
+        const eventsWithDetails = await Promise.all(
+          eventsData.map(async (event: Event) => {
+            const details = await fetchEventDetails(event.id);
+            return {
+              ...event,
+              startDate: details?.start
+            };
+          })
+        );
+
+        // Sort events by start date
+        const sortedEvents = eventsWithDetails.sort((a, b) => 
+          new Date(a.startDate || a.start).getTime() - new Date(b.startDate || b.start).getTime()
+        );
+
+        setEvents(sortedEvents);
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch events');
@@ -42,7 +72,6 @@ export function Events() {
     fetchEvents();
   }, []);
 
-  // Function to check if an event is in the past
   const isEventPast = (endDate: string) => {
     return new Date(endDate) < new Date();
   };
@@ -71,49 +100,82 @@ export function Events() {
     );
   }
 
+  const upcomingEvents = events.filter(event => !isEventPast(event.end));
+  const pastEvents = events.filter(event => isEventPast(event.end));
+
   return (
     <section id="events" className="py-20 bg-pink-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-center mb-12">Our Events</h2>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {events.map((event) => (
-            <div
-              key={event.id}
-              className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ${
-                isEventPast(event.end)
-                  ? 'opacity-100 blur-xs pointer-events-none'
-                  : ''
-              }`}
-            >
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-4">
-                  {event.name}
-                  {isEventPast(event.end) && (
-                    <span className="ml-2 text-sm text-gray-500">
-                      (COMPLETED)
-                    </span>
-                  )}
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <CalendarIcon className="h-5 w-5 text-pink-400" />
-                    <span className="text-gray-600">
-                      {new Date(event.start).toLocaleDateString()} /{' '}
-                      {new Date(event.end).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <MapPinIcon className="h-5 w-5 text-pink-400" />
-                    <span className="text-gray-600">
-                      {event.location.venue}, {event.location.city},{' '}
-                      {event.location.region}
-                    </span>
+        
+        {upcomingEvents.length > 0 && (
+          <>
+            <h3 className="text-2xl font-semibold mb-6">Upcoming Events</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+              {upcomingEvents.map((event) => (
+                <div
+                  key={event.id}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                >
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-4">{event.name}</h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-3">
+                        <CalendarIcon className="h-5 w-5 text-pink-400" />
+                        <span className="text-gray-600">
+                          {new Date(event.startDate || event.start).toLocaleDateString()} -{' '}
+                          {new Date(event.end).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <MapPinIcon className="h-5 w-5 text-pink-400" />
+                        <span className="text-gray-600">
+                          {event.location.venue}, {event.location.city}, {event.location.region}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
+
+        {pastEvents.length > 0 && (
+          <>
+            <h3 className="text-2xl font-semibold mb-6">Past Events</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {pastEvents.map((event) => (
+                <div
+                  key={event.id}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 opacity-75 blur-xs"
+                >
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-4">
+                      {event.name}
+                      <span className="ml-2 text-sm text-gray-500">(Past)</span>
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-3">
+                        <CalendarIcon className="h-5 w-5 text-pink-400" />
+                        <span className="text-gray-600">
+                          {new Date(event.startDate || event.start).toLocaleDateString()} -{' '}
+                          {new Date(event.end).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <MapPinIcon className="h-5 w-5 text-pink-400" />
+                        <span className="text-gray-600">
+                          {event.location.venue}, {event.location.city}, {event.location.region}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
