@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_CONFIG } from '../config/api';
+import { API_KEY } from '../config/api_key';
 import { Award, AwardsByCategory, AwardsStats } from '../types/awards';
 import { categorizeAwards, calculateAwardsStats } from '../utils/awards';
 import { StatsDisplay } from './achievements/StatsDisplay';
@@ -21,7 +22,7 @@ export function Achievements() {
               'season[]': API_CONFIG.SEASON_ID
             },
             headers: {
-              Authorization: `Bearer ${API_CONFIG.TOKEN}`
+              Authorization: `Bearer ${API_KEY.TOKEN}`
             }
           }
         );

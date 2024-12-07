@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CalendarIcon, MapPinIcon } from 'lucide-react';
 import { API_CONFIG } from '../config/api';
+import { API_KEY } from '../config/api_key';
 import { EventDetails } from '../types/awards';
 
 interface Event extends EventDetails {
@@ -20,7 +21,7 @@ export function Events() {
           `${API_CONFIG.BASE_URL}/events/${eventId}`,
           {
             headers: {
-              Authorization: `Bearer ${API_CONFIG.TOKEN}`
+              Authorization: `Bearer ${API_KEY.TOKEN}`
             }
           }
         );
@@ -40,7 +41,7 @@ export function Events() {
               'season[]': API_CONFIG.SEASON_ID
             },
             headers: {
-              Authorization: `Bearer ${API_CONFIG.TOKEN}`
+              Authorization: `Bearer ${API_KEY.TOKEN}`
             }
           }
         );
