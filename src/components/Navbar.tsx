@@ -18,8 +18,8 @@ export function Navbar() {
             </span>
           </div>
           <div className="hidden md:flex space-x-8">
-            <NavLink href="#about">About</NavLink>
             <NavLink href="#achievements">Achievements</NavLink>
+            <NavLink href="#photos">Photos</NavLink>
             <NavLink href="#events">Events</NavLink>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Achievements } from './components/Achievements';
 import { Events } from './components/Events';
+import { PhotoGallery } from './components/PhotoGallery';
 import './styles/animations.css';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Navbar />
       <Hero />
       <Achievements />
+      <PhotoGallery />
       <Events />
     </div>
   );

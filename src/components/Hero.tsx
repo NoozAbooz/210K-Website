@@ -3,20 +3,20 @@ import { CatIcon } from 'lucide-react';
 
 export function Hero() {
   const scrollToAchievements = () => {
-  const achievementsSection = document.getElementById('achievements');
-  if (achievementsSection) {
-    const offset = -80; // Adjust this value to ensure the title is visible
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = achievementsSection.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition + offset;
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth',
-    });
-  }
-};
+    const achievementsSection = document.getElementById('achievements');
+    if (achievementsSection) {
+      const offset = -80; // Adjust this value to ensure the title is visible
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = achievementsSection.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition + offset;
+    
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-white">

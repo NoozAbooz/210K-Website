@@ -1,5 +1,5 @@
 import React from 'react';
-import { AwardsByCategory } from '../../types/awards';
+import { AwardsByCategory, AWARD_DESCRIPTIONS } from '../../types/awards';
 import { Medal } from 'lucide-react';
 
 interface Props {
@@ -17,6 +17,7 @@ export function AwardsList({ awardsByCategory }: Props) {
             <Medal className="h-6 w-6 text-pink-400" />
             <h3 className="text-xl font-semibold">{category}</h3>
           </div>
+          <p className="text-gray-600 mb-4 text-sm">{AWARD_DESCRIPTIONS[category]}</p>
           <div className="grid gap-4">
             {awardsByCategory[category].map((award) => (
               <div
