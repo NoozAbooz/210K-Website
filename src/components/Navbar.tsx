@@ -8,7 +8,7 @@ export function Navbar() {
         <div className="flex justify-between h-32 items-center">
           <div className="flex justify-center items-center space-x-5">
             <img
-              src="https://210k.kawaiiteam.com/logo.png"
+              src="https://210k.westernmech.ca/assets/logo.png"
               alt="image"
               width={100}
               height={100}
