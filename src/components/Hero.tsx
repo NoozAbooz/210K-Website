@@ -32,8 +32,15 @@ export function Hero() {
         </h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
           We are Team 210K, a passionate group of robotics students from
-          Alberta, Canada affiliated with Western Mechatronics Robotics Club.
+          Calgary, Alberta, Canada affiliated with&nbsp;
+            <a href="https://www.westernmech.ca/" className="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            Western Mechatronics
+            <svg className="w-4 h-4 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+            </svg>
+            </a>
         </p>
+        
         <button 
           onClick={scrollToAchievements}
           className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 transform hover:scale-105"

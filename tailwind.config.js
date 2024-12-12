@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       blur: {
-        xs: '2px',
+        xs: '1px',
       },
     },
   },

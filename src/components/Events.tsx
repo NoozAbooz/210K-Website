@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { CalendarIcon, MapPinIcon } from 'lucide-react';
+import { CalendarIcon, MapPinIcon, TrophyIcon } from 'lucide-react';
 import { API_CONFIG } from '../config/api';
 import { API_KEY } from '../config/api_key';
-import { EventDetails } from '../types/awards';
+import { EventDetails, Award } from '../types/awards';
 
 interface Event extends EventDetails {
-  startDate?: string;
+  awards?: Award[];
 }
 
 export function Events() {
@@ -32,6 +32,26 @@ export function Events() {
       }
     };
 
+    const fetchAwards = async () => {
+      try {
+        const response = await axios.get(
+          `${API_CONFIG.BASE_URL}/teams/${API_CONFIG.TEAM_ID}/awards`,
+          {
+            params: {
+              'season[]': API_CONFIG.SEASON_ID
+            },
+            headers: {
+              Authorization: `Bearer ${API_KEY.TOKEN}`
+            }
+          }
+        );
+        return response.data.data;
+      } catch (err) {
+        console.error('Failed to fetch awards', err);
+        return [];
+      }
+    };
+
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
@@ -47,12 +67,16 @@ export function Events() {
         );
 
         const eventsData = response.data.data;
+        const awardsData = await fetchAwards();
+
         const eventsWithDetails = await Promise.all(
           eventsData.map(async (event: Event) => {
             const details = await fetchEventDetails(event.id);
+            const eventAwards = awardsData.filter((award: Award) => award.event.id === event.id);
             return {
               ...event,
-              startDate: details?.start
+              startDate: details?.start,
+              awards: eventAwards
             };
           })
         );
@@ -124,7 +148,7 @@ export function Events() {
                       <div className="flex items-center space-x-3">
                         <CalendarIcon className="h-5 w-5 text-pink-400" />
                         <span className="text-gray-600">
-                          {new Date(event.startDate || event.start).toLocaleDateString()} -{' '}
+                          {new Date(event.start).toLocaleDateString()} -{' '}
                           {new Date(event.end).toLocaleDateString()}
                         </span>
                       </div>
@@ -154,13 +178,13 @@ export function Events() {
                   <div className="p-6">
                     <h3 className="text-xl font-semibold mb-4">
                       {event.name}
-                      <span className="ml-2 text-sm text-gray-500">(Past)</span>
+                      {/* <span className="ml-2 text-sm text-gray-500">(Past)</span> */}
                     </h3>
                     <div className="space-y-3">
                       <div className="flex items-center space-x-3">
                         <CalendarIcon className="h-5 w-5 text-pink-400" />
                         <span className="text-gray-600">
-                          {new Date(event.startDate || event.start).toLocaleDateString()} -{' '}
+                          {new Date(event.start).toLocaleDateString()} -{' '}
                           {new Date(event.end).toLocaleDateString()}
                         </span>
                       </div>
@@ -170,6 +194,19 @@ export function Events() {
                           {event.location.venue}, {event.location.city}, {event.location.region}
                         </span>
                       </div>
+                      {event.awards && event.awards.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="text-lg font-semibold">Awards Won:</h4>
+
+                            {event.awards.map((award) => (
+                              <li key={award.id} className="text-gray-600">
+                                <TrophyIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
+                                {award.title}
+                              </li>
+                            ))}
+
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
