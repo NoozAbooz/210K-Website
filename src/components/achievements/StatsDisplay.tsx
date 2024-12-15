@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AwardsStats } from '../../types/awards';
-import { TrophyIcon } from 'lucide-react';
+import { TrophyIcon, GlobeIcon, MountainSnowIcon } from 'lucide-react';
 import { API_CONFIG } from '../../config/api';
 import { API_KEY } from '../../config/api_key';
 
@@ -11,32 +11,48 @@ interface Props {
 
 export function StatsDisplay({ stats }: Props) {
   const [globalRank, setGlobalRank] = useState<number | null>(null);
-  const [canadaRank, setCanadaRank] = useState<number | null>(null);
+  const [regionalRank, setRegionalRank] = useState<number | null>(null);
+  const [totalTeamCount, setTotalTeamCount] = useState<number>(0);
 
   useEffect(() => {
     const fetchSkillsRankings = async () => {
       try {
         const response = await axios.get(
-          `${API_CONFIG.BASE_URL}/teams/${API_CONFIG.TEAM_ID}/rankings`,
+          `https://www.robotevents.com/api/seasons/${API_CONFIG.SEASON_ID}/skills`,
           {
-            params: {
-              season: API_CONFIG.SEASON_ID,
-              type: 'skills'
-            },
             headers: {
               Authorization: `Bearer ${API_KEY.TOKEN}`
             }
           }
         );
         
-        const rankings = response.data.data;
-        const worldRanking = rankings.find((r: any) => r.type === 'world');
-        const regionRanking = rankings.find((r: any) => r.type === 'region' && r.region === 'Canada');
+        const rankings = response.data;
+        const teamObject = rankings.find((r: any) => r.team.id.toString() === API_CONFIG.TEAM_ID);
+        const totalTeamCount = rankings.length;
+        setTotalTeamCount(totalTeamCount);
         
-        setGlobalRank(worldRanking?.rank || null);
-        setCanadaRank(regionRanking?.rank || null);
+        if (teamObject) {
+          setGlobalRank(teamObject.rank);
+          
+          // Filter for regional teams and sort by score
+          const regionalTeams = rankings
+            .filter((r: any) => r.team.country === 'Canada')
+            .sort((a: any, b: any) => b.score - a.score);
+          
+          // Find our team's position in the filtered and sorted regional rankings
+          const regionalIndex = regionalTeams.findIndex((r: any) => 
+            r.team.id.toString() === API_CONFIG.TEAM_ID
+          );
+          
+          setRegionalRank(regionalIndex !== -1 ? regionalIndex + 1 : null);
+        } else {
+          setGlobalRank(null);
+          setRegionalRank(null);
+        }
       } catch (err) {
         console.error('Failed to fetch skills rankings:', err);
+        setGlobalRank(null);
+        setRegionalRank(null);
       }
     };
 
@@ -49,13 +65,21 @@ export function StatsDisplay({ stats }: Props) {
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
           <h4 className="text-lg font-semibold mb-2">Global Skills Ranking</h4>
           <p className="text-3xl font-bold text-pink-500">
-            {globalRank ? `#${globalRank}` : '-'}
+            <GlobeIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
+            Top {globalRank ? `#${(globalRank / totalTeamCount).toFixed(2)}` : 'error fetching'}%
+          </p>
+          <p className="text-1xl font-bold text-pink-500">
+            {globalRank ? `#${globalRank}` : '-'} out of {totalTeamCount}
           </p>
         </div>
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-          <h4 className="text-lg font-semibold mb-2">Canada Skills Ranking</h4>
+          <h4 className="text-lg font-semibold mb-2">Regional Skills Ranking</h4>
           <p className="text-3xl font-bold text-pink-500">
-            {canadaRank ? `#${canadaRank}` : '-'}
+            <MountainSnowIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
+            {regionalRank ? `#${regionalRank}` : '-'}
+          </p>
+          <p className="text-1xl font-bold text-pink-500">
+            Within Canada
           </p>
         </div>
       </div>
