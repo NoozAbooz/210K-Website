@@ -90,7 +90,7 @@ export function StatsDisplay({ stats }: Props) {
       </div>
       
       <div className="flex items-center justify-center mb-6">
-        <h3 className="text-2xl font-bold">Cumulative Awards: {stats.total + 7}</h3>
+        <h3 className="text-2xl font-bold">Cumulative Awards: {stats.total + 6}</h3>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
