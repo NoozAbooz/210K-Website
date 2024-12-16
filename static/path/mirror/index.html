@@ -51,9 +51,14 @@
 
         <div class="flex justify-between items-center">
             <div></div>
-            <button id="copyButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Copy Results
-            </button>
+            <div class="space-x-4">
+                <button id="clearButton" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Clear
+                </button>
+                <button id="copyButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Copy Results
+                </button>
+            </div>
         </div>
 
         <div id="console" class="mt-4 p-4 rounded text-green-300 min-h-[200px]">
@@ -66,6 +71,7 @@
         const consoleOutput = document.getElementById('console');
         const mirrorRadios = document.querySelectorAll('input[name="mirror"]');
         const copyButton = document.getElementById('copyButton');
+        const clearButton = document.getElementById('clearButton');
         const mirrorLabels = document.querySelectorAll('.mirror-label');
 
         function processMirror() {
@@ -121,6 +127,12 @@
             setTimeout(() => {
                 copyButton.textContent = 'Copy Results';
             }, 1500);
+        });
+
+        // Clear button functionality
+        clearButton.addEventListener('click', () => {
+            input.value = '';
+            consoleOutput.textContent = 'Processed results will appear here...';
         });
     </script>
 </body>
