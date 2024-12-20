@@ -36,7 +36,7 @@ export function StatsDisplay({ stats }: Props) {
           
           // Filter for regional teams and sort by score
           const regionalTeams = rankings
-            .filter((r: any) => r.team.country === 'Canada')
+            .filter((r: any) => r.team.country === 'Canada' && r.team.region === 'Alberta')
             .sort((a: any, b: any) => b.score - a.score);
           
           // Find our team's position in the filtered and sorted regional rankings
@@ -73,7 +73,7 @@ export function StatsDisplay({ stats }: Props) {
           </p>
         </div>
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-          <h4 className="text-lg font-semibold mb-2">National Skills Ranking</h4>
+          <h4 className="text-lg font-semibold mb-2">Regional Skills Ranking</h4>
           <p className="text-3xl font-bold text-pink-500">
             <MountainSnowIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
             {regionalRank ? `#${regionalRank}` : '-'}
