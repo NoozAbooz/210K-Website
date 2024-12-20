@@ -66,14 +66,14 @@ export function StatsDisplay({ stats }: Props) {
           <h4 className="text-lg font-semibold mb-2">Global Skills Ranking</h4>
           <p className="text-3xl font-bold text-pink-500">
             <GlobeIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
-            Top {globalRank ? `#${(globalRank / totalTeamCount).toFixed(2)}` : 'error fetching'}%
+            Top {globalRank ? `#${(globalRank / totalTeamCount).toFixed(2)}` : '-'}%
           </p>
           <p className="text-1xl font-bold text-pink-500">
-            {globalRank ? `#${globalRank}` : '-'} out of {totalTeamCount}
+            {globalRank ? `#${globalRank}` : '-'} out of {totalTeamCount ? `#${totalTeamCount}` : '-'}
           </p>
         </div>
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-          <h4 className="text-lg font-semibold mb-2">Regional Skills Ranking</h4>
+          <h4 className="text-lg font-semibold mb-2">National Skills Ranking</h4>
           <p className="text-3xl font-bold text-pink-500">
             <MountainSnowIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
             {regionalRank ? `#${regionalRank}` : '-'}
