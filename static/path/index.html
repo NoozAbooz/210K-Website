@@ -21,8 +21,9 @@
         <div id="config-panel">
             <h2>Configuration</h2>
             <div class="config-section">
-                <select id="format-select">
+                <select id="format-select" onchange="generateCode()">
                     <option value="libks-mtpoint">libKS Odom MTPoint</option>
+					<option value="libks-pid">libKS PID</option>
                     <option value="custom">Custom Format</option>
                 </select>
             </div>

@@ -3,137 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Path Mirror</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-color: #1a202c;
-            color: #e2e8f0;
-        }
-        #console {
-            font-family: monospace;
-            white-space: pre-wrap;
-            background-color: #2d3748;
-        }
-        .mirror-radio:checked + .mirror-label {
-            background-color: #4299e1;
-            color: white;
-        }
-        .mirror-label {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
     <!-- emoji favicon -->
     <link
         rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪞</text></svg>"
     />
 </head>
-<body class="p-8">
-    <div class="container mx-auto max-w-4xl">
-        <h1 class="text-3xl font-bold mb-4 text-center">Path Mirror 🪞</h1>
+<body>
+    <div class="container">
+        <h1>Path Mirror 🪞</h1>
         
-        <div class="mb-4">
-            <label class="block mb-2">Mirror Selection:</label>
-            <div class="flex space-x-4">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="mirror" value="X" class="mirror-radio hidden" checked>
-                    <span class="mirror-label px-4 py-2 rounded bg-gray-700 hover:bg-gray-600">Mirror X</span>
+        <div class="mirror-selection">
+            <label>Mirror Selection:</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="mirror" value="X" class="mirror-radio" checked>
+                    <span class="mirror-label">Mirror X</span>
                 </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="mirror" value="Y" class="mirror-radio hidden">
-                    <span class="mirror-label px-4 py-2 rounded bg-gray-700 hover:bg-gray-600">Mirror Y</span>
+                <label class="radio-label">
+                    <input type="radio" name="mirror" value="Y" class="mirror-radio">
+                    <span class="mirror-label">Mirror Y</span>
                 </label>
             </div>
         </div>
 
-        <textarea id="input" rows="10" class="w-full p-2 mb-4 bg-gray-700 text-white rounded" placeholder="Paste your chassis commands here..."></textarea>
+        <textarea id="input" rows="10" placeholder="Paste your chassis commands here..."></textarea>
 
-        <div class="flex justify-between items-center">
+        <div class="button-container">
             <div></div>
-            <div class="space-x-4">
-                <button id="clearButton" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    Clear
-                </button>
-                <button id="copyButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Copy Results
-                </button>
+            <div class="button-group">
+                <button id="clearButton" class="button button-red">Clear</button>
+                <button id="copyButton" class="button button-blue">Copy Results</button>
             </div>
         </div>
 
-        <div id="console" class="mt-4 p-4 rounded text-green-300 min-h-[200px]">
+        <div id="console">
             Processed results will appear here...
         </div>
     </div>
+	
+    <div class="info-section">
+        <p>
+            Currently in competing in VEX High Stakes and<br>
+            using a library like LemLib? This website will mirror
+            your paths to the other alliance! Just paste
+            all of your code and it will convert recognized movements (chassis.moveToPoint or chassis.turnToPoint). 
+        </p>
+        <img src="image.png" alt="Sample Image">
+    </div>
 
-    <script>
-        const input = document.getElementById('input');
-        const consoleOutput = document.getElementById('console');
-        const mirrorRadios = document.querySelectorAll('input[name="mirror"]');
-        const copyButton = document.getElementById('copyButton');
-        const clearButton = document.getElementById('clearButton');
-        const mirrorLabels = document.querySelectorAll('.mirror-label');
-
-        function processMirror() {
-            const lines = input.value.split('\n');
-            const mirrorMode = document.querySelector('input[name="mirror"]:checked').value;
-
-            const processedLines = lines.map(line => {
-                // Process moveToPoint commands
-                if (line.includes('chassis.moveToPoint(')) {
-                    const matches = line.match(/chassis\.moveToPoint\((-?\d+\.?\d*),\s*(-?\d+\.?\d*),/);
-                    if (matches) {
-                        const [fullMatch, x, y] = matches;
-                        if (mirrorMode === 'X') {
-                            line = line.replace(x, (-parseFloat(x)).toString());
-                        } else {
-                            line = line.replace(y, (-parseFloat(y)).toString());
-                        }
-                    }
-                }
-
-                // Process turnToHeading commands
-                if (line.includes('chassis.turnToHeading(')) {
-                    const matches = line.match(/chassis\.turnToHeading\((\d+\.?\d*),/);
-                    if (matches) {
-                        const [fullMatch, angle] = matches;
-                        const flippedAngle = (360 - parseFloat(angle)) % 360;
-                        line = line.replace(angle, flippedAngle.toString());
-                    }
-                }
-
-                return line;
-            });
-
-            consoleOutput.textContent = processedLines.join('\n');
-        }
-
-        // Add event listener for input changes
-        input.addEventListener('input', processMirror);
-
-        // Add event listeners for mirror mode changes
-        mirrorRadios.forEach((radio, index) => {
-            radio.addEventListener('change', processMirror);
-            mirrorLabels[index].addEventListener('click', () => {
-                radio.checked = true;
-                processMirror();
-            });
-        });
-
-        // Copy button functionality
-        copyButton.addEventListener('click', () => {
-            navigator.clipboard.writeText(consoleOutput.textContent);
-            copyButton.textContent = 'Copied!';
-            setTimeout(() => {
-                copyButton.textContent = 'Copy Results';
-            }, 1500);
-        });
-
-        // Clear button functionality
-        clearButton.addEventListener('click', () => {
-            input.value = '';
-            consoleOutput.textContent = 'Processed results will appear here...';
-        });
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>

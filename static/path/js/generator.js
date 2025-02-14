@@ -54,9 +54,61 @@ function generateCode() {
         }
     }
 
+    if (selectedConfig === 'libks-pid') {
+        let firstWaypoint = path[0];
+        // convert to trig bearing
+        let originAngle = ((360 - firstWaypoint.angle) + 90) % 360;
+
+        let prevX = 0;
+        let prevY = 0;
+        prevAngle = 0;
+
+        let code = "// libKS PID\n";
+        code += `// Starting point: (${((firstWaypoint.x - (canvasSize / 2)) / canvasSize * 144).toFixed(2)} in, ${((firstWaypoint.y  - (canvasSize / 2)) / canvasSize * -144).toFixed(2)} in)\n`;
+
+        for (let i = 1; i < path.length; i++) {
+            let waypoint = path[i];
+
+            let translatedX = (waypoint.x - firstWaypoint.x) / canvasSize * conversionFactor;
+            let translatedY = (waypoint.y - firstWaypoint.y) / canvasSize * conversionFactor;
+
+            // Rotate point (x and y flip here for complicated reasons)
+            const rotatedX = (translatedX * Math.sin(degreesToRadians(originAngle)) + 
+                            translatedY * Math.cos(degreesToRadians(originAngle)));
+            const rotatedY = (translatedX * Math.cos(degreesToRadians(originAngle)) - 
+                            translatedY * Math.sin(degreesToRadians(originAngle)));
+
+            let dx = rotatedX - prevX;
+            let dy = rotatedY - prevY;
+
+            let distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            // let turnAngle = radianstoDegrees(Math.atan2(dy, dx)) - prevAngle;
+            // let trigBearingAngle = ((360 - turnAngle) + 90) % 360
+
+            if (i != 1) {
+                code += `cat.turnToHeadingPID( , ${path[i].timeout}); // Point ${i + 1}\n`;
+            } else {
+                turnAngle = 0;
+            }
+            code += `cat.movePID(${distance.toFixed(2)}, ${path[i].timeout}); // Point ${i + 1}\n`;
+
+            // console.log(`dx: ${dx}, dy: ${dy}, angle: ${trigBearingAngle}`);
+
+            prevX = rotatedX;
+            prevY = rotatedY;
+            // prevAngle = trigBearingAngle;
+
+            document.getElementById('code-output').textContent = code;
+        }
+    }
+
     //console.log(path);
 }
 
 function degreesToRadians(degrees) {
     return degrees * (Math.PI / 180);
+}
+
+function radianstoDegrees(radians) {
+    return radians * (180 / Math.PI);
 }

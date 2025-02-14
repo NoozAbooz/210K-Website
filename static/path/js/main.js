@@ -81,6 +81,7 @@ function updateGridDensity() {
 
 function updateConversionFactor() {
     conversionFactor = parseInt(document.getElementById('conversion-factor').value);
+    generateCode();
 }
 
 // Handle mouse pressed events for adding, dragging, or removing waypoints

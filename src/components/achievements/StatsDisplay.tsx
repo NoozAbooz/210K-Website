@@ -36,7 +36,7 @@ export function StatsDisplay({ stats }: Props) {
           
           // Filter for regional teams and sort by score
           const regionalTeams = rankings
-            .filter((r: any) => r.team.country === 'Canada' && r.team.region === 'Alberta')
+            .filter((r: any) => r.team.country === 'Canada')
             .sort((a: any, b: any) => b.score - a.score);
           
           // Find our team's position in the filtered and sorted regional rankings
@@ -66,10 +66,10 @@ export function StatsDisplay({ stats }: Props) {
           <h4 className="text-lg font-semibold mb-2">Global Skills Ranking</h4>
           <p className="text-3xl font-bold text-pink-500">
             <GlobeIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
-            Top {globalRank ? `#${(globalRank / totalTeamCount).toFixed(2)}` : '-'}%
+            Top {globalRank ? `#${(globalRank / totalTeamCount).toFixed(2)}` : 'error fetching'}%
           </p>
           <p className="text-1xl font-bold text-pink-500">
-            {globalRank ? `#${globalRank}` : '-'} out of {totalTeamCount ? `#${totalTeamCount}` : '-'}
+            {globalRank ? `#${globalRank}` : '-'} out of {totalTeamCount}
           </p>
         </div>
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
@@ -78,9 +78,9 @@ export function StatsDisplay({ stats }: Props) {
             <MountainSnowIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
             {regionalRank ? `#${regionalRank}` : '-'}
           </p>
-          {/* <p className="text-1xl font-bold text-pink-500">
+          <p className="text-1xl font-bold text-pink-500">
             Within Canada
-          </p> */}
+          </p>
         </div>
       </div>
 
@@ -90,7 +90,7 @@ export function StatsDisplay({ stats }: Props) {
       </div>
       
       <div className="flex items-center justify-center mb-6">
-        <h3 className="text-2xl font-bold">Cumulative Awards: {stats.total + 7}</h3>
+        <h3 className="text-2xl font-bold">Cumulative Awards: {stats.total + 6}</h3>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
