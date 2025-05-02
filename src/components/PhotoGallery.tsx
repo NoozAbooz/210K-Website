@@ -20,7 +20,7 @@ export function PhotoGallery() {
     const loadSections = async () => {
       try {
         // Import all images from subfolders in assets
-        const modules = import.meta.glob('/public/assets/*/*.{png,jpg,jpeg,webp}');
+        const modules = import.meta.glob('/public/assets/Push Back/*.{png,jpg,jpeg,webp}');
         const sectionMap = new Map<string, string[]>();
 
         // Process each image path
