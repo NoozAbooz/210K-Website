@@ -21,6 +21,7 @@ export function Navbar() {
             <NavLink href="#achievements">Achievements</NavLink>
             <NavLink href="#photos">Photos</NavLink>
             <NavLink href="#events">Events</NavLink>
+            <NavLink href="https://210k.westernmech.ca/path/">PathPlanner</NavLink>
           </div>
         </div>
       </div>
