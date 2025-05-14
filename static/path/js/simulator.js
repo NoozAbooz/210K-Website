@@ -27,12 +27,87 @@ function openSimulation() {
     progressSlider.addEventListener('change', handleProgressChange);
     
     resetSimulation();
+    calculateTotalTime(); // Calculate and display the total time
 }
 
 // Function to close the simulation panel
 function closeSimulation() {
     document.getElementById('simulation-panel').style.display = 'none';
     stopSimulation();
+}
+
+// Calculate and display total time to complete the path
+function calculateTotalTime() {
+    // Check if the elements exist before trying to update them
+    const timeDisplay = document.getElementById('path-total-time');
+    const distanceDisplay = document.getElementById('path-total-distance');
+    
+    if (!timeDisplay || !distanceDisplay) {
+        // If the elements don't exist, don't try to update them
+        return;
+    }
+    
+    if (path.length < 2) {
+        timeDisplay.textContent = "--";
+        distanceDisplay.textContent = "--";
+        return;
+    }
+    
+    // Get speeds
+    const movementSpeed = parseFloat(document.getElementById('movement-speed').value); // in/s
+    const turningSpeed = parseFloat(document.getElementById('turning-speed').value); // deg/s
+    
+    let totalTime = 0;
+    let totalDistance = 0;
+    let currentAngle = path[0].angle;
+    
+    // Calculate time for each segment
+    for (let i = 1; i < path.length; i++) {
+        const prevPoint = path[i-1];
+        const point = path[i];
+        
+        // Calculate distance between points in pixels
+        const dx = point.x - prevPoint.x;
+        const dy = point.y - prevPoint.y;
+        const distancePixels = Math.sqrt(dx*dx + dy*dy);
+        
+        // Convert to inches
+        const distanceInches = distancePixels / canvasSize * conversionFactor;
+        
+        // Add to total distance
+        totalDistance += distanceInches;
+        
+        // Calculate movement time
+        const moveTime = distanceInches / movementSpeed;
+        
+        // Calculate angle for turning
+        const targetAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+        let angleDiff = ((targetAngle - currentAngle + 540) % 360) - 180;
+        angleDiff = Math.abs(angleDiff);
+        
+        // Calculate turning time
+        const turnTime = angleDiff / turningSpeed;
+        
+        // Add to total
+        totalTime += moveTime + turnTime;
+        
+        // Update current angle
+        currentAngle = targetAngle;
+    }
+    
+    // Format time nicely
+    if (totalTime < 60) {
+        // Less than a minute, show seconds
+        timeDisplay.textContent = `${totalTime.toFixed(1)} seconds`;
+    } else {
+        // Show minutes and seconds
+        const minutes = Math.floor(totalTime / 60);
+        const seconds = Math.round((totalTime % 60) * 10) / 10;
+        timeDisplay.textContent = `${minutes}m ${seconds.toFixed(1)}s`;
+    }
+    
+    // Format distance in inches only
+    distanceDisplay.textContent = `${totalDistance.toFixed(1)} inches`;
 }
 
 // Start the simulation
@@ -69,18 +144,30 @@ function playSimulation() {
     // Fix the calculation of movement speed:
     // Convert inches per second to pixels per millisecond with proper scaling
     // The canvas size in pixels divided by conversion factor gives pixels per inch
+    
     const inchesToPixels = canvasSize / conversionFactor;
     
     // Calculate how much to move each step (pixels per ms)
     // We multiply by delta time in the update function
-    progressStep = movementSpeed * inchesToPixels / 20; // Adjusted for reasonable visualization
+    progressStep = movementSpeed * inchesToPixels / 1000; // Adjusted for reasonable visualization
     
     document.getElementById('simulation-status').textContent = "Simulating...";
     
     // Initialize robot position and angle
     if (path.length > 0) {
         const startWaypoint = path[0];
-        currentRobotAngle = startWaypoint.angle;
+        
+        // Calculate initial angle to face toward the next waypoint (index 1)
+        if (path.length >= 2) {
+            const nextWaypoint = path[1];
+            const dx = nextWaypoint.x - startWaypoint.x;
+            const dy = nextWaypoint.y - startWaypoint.y;
+            currentRobotAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+        } else {
+            // If there's only one waypoint, use its angle
+            currentRobotAngle = startWaypoint.angle;
+        }
+        
         simulatedRobot = {
             x: startWaypoint.x + gridSize/2,
             y: startWaypoint.y + gridSize/2,
@@ -377,6 +464,22 @@ function applyCalibration() {
     // Show a toast notification
     showToast("Simulation speeds calibrated successfully!");
     
-    // Call after updating speeds
+    // Calculate the new total time
     calculateTotalTime();
 }
+
+// Add listeners to update the time when speeds change
+document.addEventListener('DOMContentLoaded', function() {
+    const movementSpeedInput = document.getElementById('movement-speed');
+    const turningSpeedInput = document.getElementById('turning-speed');
+    
+    if (movementSpeedInput) {
+        movementSpeedInput.addEventListener('input', calculateTotalTime);
+        movementSpeedInput.addEventListener('change', calculateTotalTime);
+    }
+    
+    if (turningSpeedInput) {
+        turningSpeedInput.addEventListener('input', calculateTotalTime);
+        turningSpeedInput.addEventListener('change', calculateTotalTime);
+    }
+});

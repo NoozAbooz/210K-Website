@@ -108,10 +108,10 @@
 	    <div class="simulation-settings">
 	        <h3>Simulation Settings</h3>
 	        <label for="movement-speed">Movement Speed (in/s):</label>
-	        <input type="number" id="movement-speed" value="20" min="1" max="100">
+	        <input type="number" id="movement-speed" value="60" min="1" max="100">
 	        
 	        <label for="turning-speed">Turning Speed (deg/s):</label>
-	        <input type="number" id="turning-speed" value="90" min="1" max="360">
+	        <input type="number" id="turning-speed" value="180" min="1" max="360">
 	    </div>
 	    
 	    <div class="simulation-controls">
@@ -133,6 +133,12 @@
 	        <h3>Current Status</h3>
 	        <div id="simulation-status">Ready to simulate</div>
 	        <div id="current-waypoint">No active waypoint</div>
+	        <div class="time-info">
+	            <span>Total Time: </span><span id="path-total-time">--</span>
+	        </div>
+	        <div class="distance-info">
+	            <span>Total Distance: </span><span id="path-total-distance">--</span>
+	        </div>
 	    </div>
 	</div>
 
