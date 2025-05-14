@@ -1,7 +1,7 @@
 let path = [];
 let draggingIndex = -1;
 let gridSize = 3;
-let conversionFactor = 144;
+let conversionFactor = 144.0;
 let fieldImage;
 let canvasSize;
 let panX = 0;
@@ -51,6 +51,11 @@ function draw() {
     if (document.getElementById('robot-visible').checked) {
         drawRobotOverlay();
     }
+    
+    // Draw simulated robot if simulation is active
+    if (typeof simulatedRobot !== 'undefined' && simulatedRobot) {
+        drawSimulatedRobot();
+    }
 }
 
 // Draw the grid lines, aligned with the field tiles
@@ -80,7 +85,7 @@ function updateGridDensity() {
 }
 
 function updateConversionFactor() {
-    conversionFactor = parseInt(document.getElementById('conversion-factor').value);
+    conversionFactor = parseFloat(document.getElementById('conversion-factor').value);
     generateCode();
 }
 
@@ -326,4 +331,27 @@ function showToast(message = "Placeholder Text") {
         // otherwise cos function is not loaded and bad things happen
         generateCode();
     }, 200);
+}
+
+// Function to draw the simulated robot
+function drawSimulatedRobot() {
+    if (!simulatedRobot) return;
+
+    const inchesToPixels = canvasSize / conversionFactor;
+    const robotWidth = parseInt(document.getElementById('robot-width').value) * inchesToPixels;
+    const robotHeight = parseInt(document.getElementById('robot-height').value) * inchesToPixels;
+
+    push();
+    translate(simulatedRobot.x, simulatedRobot.y);
+    rotate(radians(simulatedRobot.angle));
+    fill(100, 100, 255, 150); // Blue translucent fill
+    noStroke();
+    rectMode(CENTER);
+    rect(0, 0, robotWidth, robotHeight);
+
+    // Draw direction indicator
+    stroke(255, 0, 0); // Red color for the direction indicator
+    strokeWeight(3);
+    line(0, 0, robotWidth / 2, 0); // Line extending from the center to the right side
+    pop();
 }
