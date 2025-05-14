@@ -276,6 +276,18 @@ button.reflect:hover {
     background-color: #6cc4e7; /* Slightly darker light blue on hover */
 }
 
+/* Horizontal Buttons Container */
+.horizontal-buttons {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-bottom: 15px;
+}
+
+.horizontal-buttons button {
+    flex: 1;
+    margin-bottom: 0;
+}
+
 /* Save Slots Container with 2 Columns */
 .slots-container {
     display: grid;

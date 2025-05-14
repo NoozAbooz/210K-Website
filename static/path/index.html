@@ -46,8 +46,10 @@
 				<h2>Conversion Factor</h2>
                 <input type="number" id="conversion-factor" value="147" min="1" step="1" onchange="updateConversionFactor()">
             </div>
-            <button onclick="copyCodeToClipboard()">Copy Code</button>
-            <button onclick="clearPath()">Clear Path</button>
+            <div class="horizontal-buttons">
+                <button onclick="copyCodeToClipboard()">Copy Code</button>
+                <button onclick="clearPath()">Clear Path</button>
+            </div>
             <button onclick="openSaveOptionsModal()">Path Options</button>
             <pre id="code-output"></pre>
         </div>
