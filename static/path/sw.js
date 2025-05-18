@@ -8,11 +8,12 @@ const cacheUrls = [
     '/path/js/depend/p5.min.js',
     '/path/js/editor.js',
     '/path/js/generator.js',
+    '/path/js/simulator.js',
     '/path/js/main.js',
     '/path/js/save.js',
     '/path/js/sw.js',
-    '/path/images/V5RC-HighStakes-H2H-2000x2000.png',
-    '/path/images/V5RC-HighStakes-Skills-2000x2000.png'
+    '/path/images/V5RC-PushBack-H2H-2000x2000.png',
+    '/path/images/V5RC-PushBack-Skills-2000x2000.png'
 ];
 
 // Installing Service Worker

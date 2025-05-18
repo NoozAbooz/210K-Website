@@ -11,8 +11,11 @@ let undoStack = [];
 
 // URLs for the field images
 const fieldImages = {
-    v5rc: "./images/V5RC-HighStakes-H2H-2000x2000.png",
-    "v5rc-skills": "./images/V5RC-HighStakes-Skills-2000x2000.png"
+    "v5rc-pushback": "./images/V5RC-Pushback-H2H-2000x2000.png",
+    "v5rc-pushback-skills": "./images/V5RC-Pushback-Skills-2000x2000.png",
+
+    "v5rc-highstakes": "./images/V5RC-HighStakes-H2H-2000x2000.png",
+    "v5rc-highstakes-skills": "./images/V5RC-HighStakes-Skills-2000x2000.png"
 };
 
 // Preload the field image based on selection
