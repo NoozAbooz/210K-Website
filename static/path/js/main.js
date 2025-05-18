@@ -358,13 +358,3 @@ function drawSimulatedRobot() {
     line(0, 0, robotWidth / 2, 0); // Line extending from the center to the right side
     pop();
 }
-
-// After generateCode function is called, also update the total time if simulation panel is open
-function generateCode() {
-    // ...existing code...
-    
-    // Update total time if simulation panel is visible
-    if (document.getElementById('simulation-panel').style.display === 'block' && typeof calculateTotalTime === 'function') {
-        calculateTotalTime();
-    }
-}

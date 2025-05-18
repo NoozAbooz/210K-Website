@@ -102,6 +102,11 @@ function generateCode() {
         }
     }
 
+    // Update total time if simulation panel is visible
+    if (document.getElementById('simulation-panel').style.display === 'block' && typeof calculateTotalTime === 'function') {
+        calculateTotalTime();
+    }
+
     //console.log(path);
 }
 
