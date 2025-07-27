@@ -190,7 +190,7 @@ function drawPath() {
             // Draw waypoint halos
             if (i === 0) {
                 fill(100, 255, 100, 150); // green translucent halo for the starting waypoint
-            } if (i === path.length - 1) {
+            } else if (i === path.length - 1) {
 	    	fill(255, 100, 100, 150); // red halo for end waypoint
 	    } else {
                 fill(255, 255, 255, 100); // Translucent white halo for other waypoints
