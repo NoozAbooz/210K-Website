@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { RevealsAndRecaps } from './components/RevealsAndRecaps';
 import { Achievements } from './components/Achievements';
 import { Events } from './components/Events';
 import { PhotoGallery } from './components/PhotoGallery';
@@ -14,6 +15,7 @@ function App() {
       <main className="flex-grow">
         <Hero />
         <Achievements />
+        <RevealsAndRecaps />
         <PhotoGallery />
         <Events />
       </main>
