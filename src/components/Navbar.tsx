@@ -19,7 +19,7 @@ export function Navbar() {
           </div>
           <div className="hidden md:flex space-x-8">
             <NavLink href="#achievements">Achievements</NavLink>
-            <NavLink href="#photos">Photos</NavLink>
+            <NavLink href="#reveals-and-recaps">Reveals & Recaps</NavLink>
             <NavLink href="#events">Events</NavLink>
             <NavLink href="https://210k.westernmech.ca/path/">PathPlanner</NavLink>
           </div>
@@ -36,10 +36,29 @@ function NavLink({
   href: string;
   children: React.ReactNode;
 }) {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Only handle internal links (those starting with #)
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        const offsetTop = targetElement.offsetTop - 80; // x pixels above the element
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    }
+    // External links (like PathPlanner) will work normally
+  };
+
   return (
     <a
       href={href}
-      className="text-gray-600 hover:text-pink-500 transition-colors duration-200 font-medium"
+      onClick={handleClick}
+      className="text-gray-600 hover:text-pink-500 transition-colors duration-200 font-medium cursor-pointer"
     >
       {children}
     </a>
