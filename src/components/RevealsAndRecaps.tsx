@@ -64,7 +64,7 @@ export function RevealsAndRecaps() {
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Watch our latest robot reveals, competition recaps, and behind-the-scenes content. 
-            Stay updated with our robotics journey!
+            Learn more our robotics journey!
           </p>
         </div>
 
