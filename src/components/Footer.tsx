@@ -14,7 +14,7 @@ export function Footer() {
           >
             GitHub 
           </a>
-          . © Michael Zheng 2025-2026
+          . © Michael Zheng (NoozAbooz) 2024-2026
         </p>
       </div>
     </footer>
