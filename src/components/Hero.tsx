@@ -3,7 +3,7 @@ import { CatIcon } from 'lucide-react';
 
 export function Hero() {
   const scrollToAchievements = () => {
-    const achievementsSection = document.getElementById('achievements');
+    const achievementsSection = document.getElementById('our-robot'); // scroll to out robot instead hehe
     if (achievementsSection) {
       const offset = -80; // Adjust this value to ensure the title is visible
       const bodyRect = document.body.getBoundingClientRect().top;
