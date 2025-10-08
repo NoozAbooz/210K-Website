@@ -14,7 +14,7 @@ export function AwardsList({ awardsByCategory }: Props) {
       {categories.map((category) => (
         <div key={category} className="bg-white rounded-xl p-6 shadow-md">
           <div className="flex items-center space-x-3 mb-4">
-            <Medal className="h-6 w-6 text-pink-400" />
+            {/* <Medal className="h-6 w-6 text-pink-400" /> */}
             <h3 className="text-xl font-semibold">{category}</h3>
           </div>
           <p className="text-gray-600 mb-4 text-sm">{AWARD_DESCRIPTIONS[category]}</p>
