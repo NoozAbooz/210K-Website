@@ -62,6 +62,10 @@ export function RevealsAndRecaps() {
               Reveals & Recaps
             </span>
           </h2>
+          {/* <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Watch our latest robot reveals, competition recaps, and behind-the-scenes content. 
+            Learn more our robotics journey!
+          </p> */}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
