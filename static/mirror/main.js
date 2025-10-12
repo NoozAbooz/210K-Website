@@ -10,9 +10,9 @@ function processMirror() {
     const mirrorMode = document.querySelector('input[name="mirror"]:checked').value;
 
     const processedLines = lines.map(line => {
-        // Process moveToPoint commands
-        if (line.includes('chassis.moveToPoint(')) {
-            const matches = line.match(/chassis\.moveToPoint\((-?\d+\.?\d*),\s*(-?\d+\.?\d*),/);
+        // Process moveToPoint commands regex ...(x, y,...) -> ...( -x, y)
+        if (line.includes('kw::moveToPoint(')) {
+            const matches = line.match(/kw::moveToPoint\((-?\d+\.?\d*),\s*(-?\d+\.?\d*),/);
             if (matches) {
                 const [fullMatch, x, y] = matches;
                 if (mirrorMode === 'X') {
@@ -23,9 +23,9 @@ function processMirror() {
             }
         }
 
-        // Process turnToHeading commands
-        if (line.includes('chassis.turnToHeading(')) {
-            const matches = line.match(/chassis\.turnToHeading\((\d+\.?\d*),/);
+        // Process turnToAngle commands
+        if (line.includes('kw::turnToAngle(')) {
+            const matches = line.match(/kw::turnToAngle\((\d+\.?\d*),/);
             if (matches) {
                 const [fullMatch, angle] = matches;
                 const flippedAngle = (360 - parseFloat(angle)) % 360;
@@ -39,10 +39,8 @@ function processMirror() {
     consoleOutput.textContent = processedLines.join('\n');
 }
 
-// Add event listener for input changes
 input.addEventListener('input', processMirror);
 
-// Add event listeners for mirror mode changes
 mirrorRadios.forEach((radio, index) => {
     radio.addEventListener('change', processMirror);
     mirrorLabels[index].addEventListener('click', () => {
@@ -51,7 +49,6 @@ mirrorRadios.forEach((radio, index) => {
     });
 });
 
-// Copy button functionality
 copyButton.addEventListener('click', () => {
     navigator.clipboard.writeText(consoleOutput.textContent);
     copyButton.textContent = 'Copied!';
@@ -60,7 +57,6 @@ copyButton.addEventListener('click', () => {
     }, 1500);
 });
 
-// Clear button functionality
 clearButton.addEventListener('click', () => {
     input.value = '';
     consoleOutput.textContent = 'Processed results will appear here...';
