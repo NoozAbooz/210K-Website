@@ -212,6 +212,7 @@ function drawPath() {
             // Draw waypoint labels on top of halos and lines
             fill(0);
             textAlign(CENTER, CENTER);
+            textSize(25); // Add this line to make labels larger (default is usually 12)
             text(i + 1, x, y);
         }
     }
