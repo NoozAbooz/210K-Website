@@ -11,25 +11,30 @@ function processMirror() {
 
     const processedLines = lines.map(line => {
         // Process moveToPoint commands regex ...(x, y,...) -> ...( -x, y)
-        if (line.includes('kw::moveToPoint(')) {
-            const matches = line.match(/kw::moveToPoint\((-?\d+\.?\d*),\s*(-?\d+\.?\d*),/);
+        {
+            const moveRegex = /(kw::|chassis\.)moveToPoint\(\s*(-?\d+\.?\d*)(\s*,\s*)(-?\d+\.?\d*)/;
+            const matches = line.match(moveRegex);
             if (matches) {
-                const [fullMatch, x, y] = matches;
-                if (mirrorMode === 'X') {
-                    line = line.replace(x, (-parseFloat(x)).toString());
-                } else {
-                    line = line.replace(y, (-parseFloat(y)).toString());
-                }
+            const [, prefix, x, commaSep, y] = matches;
+            if (mirrorMode === 'X') {
+                const flippedX = (-parseFloat(x)).toString();
+                line = line.replace(moveRegex, `${prefix}moveToPoint(${flippedX}${commaSep}${y}`);
+            } else {
+                const flippedY = (-parseFloat(y)).toString();
+                line = line.replace(moveRegex, `${prefix}moveToPoint(${x}${commaSep}${flippedY}`);
+            }
             }
         }
 
         // Process turnToAngle commands
-        if (line.includes('kw::turnToAngle(')) {
-            const matches = line.match(/kw::turnToAngle\((\d+\.?\d*),/);
+        if (line.includes('kw::turnToAngle(') || line.includes('chassis.turnToHeading(')) {
+            const matches = line.match(/(kw::turnToAngle|chassis\.turnToHeading)\(\s*(-?\d+\.?\d*)/);
             if (matches) {
-                const [fullMatch, angle] = matches;
-                const flippedAngle = (360 - parseFloat(angle)) % 360;
-                line = line.replace(angle, flippedAngle.toString());
+            const [, fn, angle] = matches;
+            let a = parseFloat(angle) % 360;
+            if (a < 0) a += 360;
+            const flippedAngle = (360 - a) % 360;
+            line = line.replace(/(kw::turnToAngle|chassis\.turnToHeading)\(\s*-?\d+\.?\d*/, `${fn}(${flippedAngle}`);
             }
         }
 
