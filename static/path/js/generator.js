@@ -20,7 +20,7 @@ function generateCode() {
         // convert to trig bearing
         let originAngle = ((360 - firstWaypoint.angle) + 90) % 360;
 
-        let code = "// libKS MTPoint v0.1\n";
+        let code = "// libKW MTPoint v0.1\n";
         code += `// Starting point: (${((firstWaypoint.x - (canvasSize / 2)) / canvasSize * 144).toFixed(2)} in, ${((firstWaypoint.y  - (canvasSize / 2)) / canvasSize * -144).toFixed(2)} in)\n`;
 
         for (let i = 0; i < path.length; i++) {
@@ -63,7 +63,7 @@ function generateCode() {
         let prevY = 0;
         prevAngle = 0;
 
-        let code = "// libKS PID\n";
+        let code = "// libKW PID\n";
         code += `// Starting point: (${((firstWaypoint.x - (canvasSize / 2)) / canvasSize * 144).toFixed(2)} in, ${((firstWaypoint.y  - (canvasSize / 2)) / canvasSize * -144).toFixed(2)} in)\n`;
 
         for (let i = 1; i < path.length; i++) {
@@ -86,11 +86,11 @@ function generateCode() {
             // let trigBearingAngle = ((360 - turnAngle) + 90) % 360
 
             if (i != 1) {
-                code += `cat.turnToHeadingPID( , ${path[i].timeout}); // Point ${i + 1}\n`;
+                code += `kw::turnToAngle( , ${path[i].timeout}); // Point ${i + 1}\n`;
             } else {
                 turnAngle = 0;
             }
-            code += `cat.movePID(${distance.toFixed(2)}, ${path[i].timeout}); // Point ${i + 1}\n`;
+            code += `kw::driveTo(${distance.toFixed(2)}, ${path[i].timeout}); // Point ${i + 1}\n`;
 
             // console.log(`dx: ${dx}, dy: ${dy}, angle: ${trigBearingAngle}`);
 
