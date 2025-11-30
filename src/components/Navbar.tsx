@@ -1,5 +1,4 @@
 import React from 'react';
-import { CatIcon } from 'lucide-react';
 
 export function Navbar() {
   return (
@@ -7,15 +6,19 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-32 items-center">
           <div className="flex justify-center items-center space-x-5">
-            <img
-              src="https://210k.westernmech.ca/assets/logo.png"
-              alt="image"
-              width={100}
-              height={100}
+            <div 
+              className="w-[150px] h-[150px] bg-gradient-to-r from-pink-400 to-pink-600"
+              style={{
+                maskImage: 'url(/assets/logo2.png)',
+                WebkitMaskImage: 'url(/assets/logo2.png)',
+                maskSize: 'contain',
+                WebkitMaskSize: 'contain',
+                maskRepeat: 'no-repeat',
+                WebkitMaskRepeat: 'no-repeat',
+                maskPosition: 'center',
+                WebkitMaskPosition: 'center',
+              }}
             />
-            <span className="text-4xl font-bold bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent">
-              210K
-            </span>
           </div>
           <div className="hidden md:flex space-x-8">
             <NavLink href="#our-robot">Our Robot</NavLink>
