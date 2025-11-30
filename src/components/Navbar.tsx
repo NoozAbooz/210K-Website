@@ -7,7 +7,7 @@ export function Navbar() {
         <div className="flex justify-between h-32 items-center">
           <div className="flex justify-center items-center space-x-5">
             <div 
-              className="w-[150px] h-[150px] bg-gradient-to-r from-pink-400 to-pink-600"
+              className="w-[150px] h-[150px] bg-gradient-to-r from-pink-300 to-pink-600"
               style={{
                 maskImage: 'url(/assets/logo2.png)',
                 WebkitMaskImage: 'url(/assets/logo2.png)',
