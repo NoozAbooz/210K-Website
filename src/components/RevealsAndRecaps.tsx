@@ -19,18 +19,18 @@ const sampleVideos: VideoItem[] = [
     youtubeUrl: 'https://www.youtube.com/watch?v=-CFn_fpI_Yw' 
   },
   {
-    id: '2',
+	  id: '2',
+	  title: 'Alberta Provincials - Elimination Auton Showcase',
+	  description: 'Filmed w/ team 210Z during VRC High Stakes. The robot is moving independently during this routine with no driver input, relying on sensor-based feedback and PID controllers.',
+	  thumbnail: 'https://img.youtube.com/vi/U3ehQVyWL6o/sddefault.jpg',
+	  youtubeUrl: 'https://www.youtube.com/watch?v=U3ehQVyWL6o'
+  },
+  {
+    id: '3',
     title: 'Rapid Pneumatic Descore Demo',
     description: 'Showcasing our MOGO descore mechanism made during VRC High Stakes',
     thumbnail: 'https://img.youtube.com/vi/f0t37H_Tg9k/sddefault.jpg',
     youtubeUrl: 'https://www.youtube.com/watch?v=f0t37H_Tg9k'
-  },
-  {
-	id: '3',
-	title: 'Alberta Provincials - Elimination Auton Showcase',
-	description: 'Demo of our autonomous routine together with team 210Z during VRC High Stakes',
-	thumbnail: 'https://img.youtube.com/vi/U3ehQVyWL6o/sddefault.jpg',
-	youtubeUrl: 'https://www.youtube.com/watch?v=U3ehQVyWL6o'
   }
 ];
 
