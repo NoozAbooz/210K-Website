@@ -13,20 +13,27 @@ interface VideoItem {
 const sampleVideos: VideoItem[] = [
   {
     id: '1',
+    title: 'One World @ UCBerk Recap 2025',
+    description: 'Edited by Henry 55288A',
+    thumbnail: 'https://img.youtube.com/vi/A2ZGF0ona-g/sddefault.jpg',
+    youtubeUrl: 'https://www.youtube.com/watch?v=A2ZGF0ona-g'
+  },
+  {
+    id: '2',
     title: 'MoA Signature Event Recap 2025',
     description: 'Recap of our participation in the Mall of America Signature Event during VRC Push Back',
     thumbnail: 'https://img.youtube.com/vi/-CFn_fpI_Yw/sddefault.jpg',
     youtubeUrl: 'https://www.youtube.com/watch?v=-CFn_fpI_Yw' 
   },
   {
-	  id: '2',
+	  id: '3',
 	  title: 'Alberta Provincials - Elimination Auton Showcase',
 	  description: 'Filmed w/ team 210Z during VRC High Stakes. The robot is moving independently during this routine with no driver input, relying on sensor-based feedback and PID controllers.',
 	  thumbnail: 'https://img.youtube.com/vi/U3ehQVyWL6o/sddefault.jpg',
 	  youtubeUrl: 'https://www.youtube.com/watch?v=U3ehQVyWL6o'
   },
   {
-    id: '3',
+    id: '4',
     title: 'Rapid Pneumatic Descore Demo',
     description: 'Showcasing our MOGO descore mechanism made during VRC High Stakes',
     thumbnail: 'https://img.youtube.com/vi/f0t37H_Tg9k/sddefault.jpg',
