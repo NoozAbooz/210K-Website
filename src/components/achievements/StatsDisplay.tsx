@@ -28,8 +28,21 @@ export function StatsDisplay({ stats }: Props) {
         
         const rankings = response.data;
         const teamObject = rankings.find((r: any) => r.team.id.toString() === API_CONFIG.TEAM_ID);
-        const totalTeamCount = rankings.length;
-        setTotalTeamCount(totalTeamCount);
+        const HSTeamCount = rankings.length;
+
+        const response2 = await axios.get(
+          `https://www.robotevents.com/api/seasons/${API_CONFIG.SEASON_ID}/skills`,
+          {
+            headers: {
+              Authorization: `Bearer ${API_KEY.TOKEN}`
+            }
+          }
+        );
+        
+        const rankings2 = response2.data;
+        const MSTeamCount = rankings2.length;
+
+        setTotalTeamCount(HSTeamCount + MSTeamCount);
         
         if (teamObject) {
           setGlobalRank(teamObject.rank);
@@ -64,30 +77,30 @@ export function StatsDisplay({ stats }: Props) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
           <h4 className="text-lg font-semibold mb-2">Global Skills Ranking</h4>
-          {/* <p className="text-3xl font-bold text-pink-500">
+          <p className="text-3xl font-bold text-pink-500">
             <GlobeIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
             Top {globalRank ? `${(globalRank / totalTeamCount * 100).toFixed(2)}` : '-'}%
           </p>
           <p className="text-1xl font-bold text-pink-500">
             {globalRank ? `#${globalRank}` : '-'} out of {totalTeamCount}
-          </p> */}
-          <p className="text-3xl font-bold text-pink-500">
+          </p>
+          {/* <p className="text-3xl font-bold text-pink-500">
             <GlobeIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
             Top 1.31%
           </p>
           <p className="text-1xl font-bold text-pink-500">
             #131 out of 10000+
-          </p>
+          </p> */}
         </div>
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-          <h4 className="text-lg font-semibold mb-2">Regional TrueSkill Ranking</h4>
+          <h4 className="text-lg font-semibold mb-2">Regional Skills Ranking</h4>
           <p className="text-3xl font-bold text-pink-500">
             <MountainSnowIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
             {/* {regionalRank ? `#${regionalRank}` : '-'} */}
-            {'#3'}
+            {'#1'}
           </p>
           <p className="text-1xl font-bold text-pink-500">
-            Within Canada
+            Within Alberta
           </p>
         </div>
       </div>
@@ -98,7 +111,7 @@ export function StatsDisplay({ stats }: Props) {
       </div>
       
       <div className="flex items-center justify-center mb-6">
-        <h3 className="text-2xl font-bold">Cumulative Awards: {stats.total + 18}</h3>
+        <h3 className="text-2xl font-bold">Cumulative Awards: {stats.total + 22}</h3>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

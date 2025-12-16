@@ -198,12 +198,14 @@ export function Events() {
                         <div className="mt-4">
                           <h4 className="text-lg font-semibold">Awards Won:</h4>
 
-                            {event.awards.map((award) => (
-                              <li key={award.id} className="text-gray-600">
-                                <TrophyIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
-                                {award.title}
-                              </li>
-                            ))}
+                            <ul className="list-none p-0 m-0">
+                              {event.awards.map((award) => (
+                                <li key={award.id} className="text-gray-600">
+                                  <TrophyIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
+                                  {award.title}
+                                </li>
+                              ))}
+                            </ul>
 
                         </div>
                       )}
