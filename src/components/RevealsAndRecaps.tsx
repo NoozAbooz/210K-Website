@@ -13,39 +13,39 @@ interface VideoItem {
 const sampleVideos: VideoItem[] = [
   {
     id: '1',
-    title: 'Winter Autonomous Showcase 2025',
+    title: 'Winter Autonomous Showcase | VRC Push Back',
     description: 'Filmed at STEMIA LCQ. Edited by Michael.',
     thumbnail: 'https://img.youtube.com/vi/2XSR1ckcpsE/sddefault.jpg',
     youtubeUrl: 'https://www.youtube.com/watch?v=2XSR1ckcpsE'
   },
   {
     id: '2',
-    title: 'One World @ UCBerk Recap 2025',
-    description: '1x Judges Award. Edited by Henry 55288A',
+    title: 'One World @ UCBerk Recap | VRC Push Back',
+    description: 'Judges Award. Edited by Henry 55288A',
     thumbnail: 'https://img.youtube.com/vi/A2ZGF0ona-g/sddefault.jpg',
     youtubeUrl: 'https://www.youtube.com/watch?v=A2ZGF0ona-g'
   },
   {
     id: '3',
-    title: 'MoA Signature Event Recap 2025',
-    description: 'Recap of our participation in the Mall of America Signature Event during VRC Push Back. Edited by Michael',
+    title: 'MoA Signature Event Recap | VRC Push Back',
+    description: 'Recap of our participation in the Mall of America Signature Event. Edited by Michael',
     thumbnail: 'https://img.youtube.com/vi/-CFn_fpI_Yw/sddefault.jpg',
     youtubeUrl: 'https://www.youtube.com/watch?v=-CFn_fpI_Yw' 
   },
   {
 	  id: '4',
-	  title: 'Alberta Provincials - Elimination Auton Showcase',
-	  description: 'Filmed w/ team 210Z during VRC High Stakes.',
+	  title: 'Elimination Auton Showcase | VRC High Stakes',
+	  description: 'Filmed w/ team 210Z during the 2025 Alberta Provincials.',
 	  thumbnail: 'https://img.youtube.com/vi/U3ehQVyWL6o/sddefault.jpg',
 	  youtubeUrl: 'https://www.youtube.com/watch?v=U3ehQVyWL6o'
   },
-  {
-    id: '5',
-    title: 'Rapid Pneumatic Descore Demo',
-    description: 'Showcasing our goal descore mechanism made during VRC High Stakes',
-    thumbnail: 'https://img.youtube.com/vi/f0t37H_Tg9k/sddefault.jpg',
-    youtubeUrl: 'https://www.youtube.com/watch?v=f0t37H_Tg9k'
-  }
+  // {
+  //   id: '5',
+  //   title: 'Rapid Pneumatic Descore Demo | VRC High Stakes',
+  //   description: 'Showcasing our goal descore mechanism, capable of descoring up to 4 rings at a time.',
+  //   thumbnail: 'https://img.youtube.com/vi/f0t37H_Tg9k/sddefault.jpg',
+  //   youtubeUrl: 'https://www.youtube.com/watch?v=f0t37H_Tg9k'
+  // }
 ];
 
 export function RevealsAndRecaps() {
