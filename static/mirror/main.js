@@ -38,6 +38,25 @@ function processMirror() {
             }
         }
 
+        // Process boomerang commands
+        if (line.includes('kw::boomerang(')) {
+            const boomerangRegex = /(kw::boomerang)\(\s*(-?\d+\.?\d*)(\s*,\s*)(-?\d+\.?\d*)(\s*,\s*)(-?\d+\.?\d*)/;
+            const matches = line.match(boomerangRegex);
+            if (matches) {
+                const [, fn, x, commaSep1, y, commaSep2, angle] = matches;
+                const flippedX = mirrorMode === 'X' ? (-parseFloat(x)).toString() : x;
+                const flippedY = mirrorMode === 'X' ? y : (-parseFloat(y)).toString();
+                let a = parseFloat(angle) % 360;
+                if (a < 0) a += 360;
+                const flippedAngle = (360 - a) % 360;
+                line = line.replace(
+                    boomerangRegex,
+                    `${fn}(${flippedX}${commaSep1}${flippedY}${commaSep2}${flippedAngle}`
+                );
+            }
+        }
+        
+
         return line;
     });
 
