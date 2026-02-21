@@ -9,4 +9,5 @@ Feb 3
 Jan 2026
 - Sig Submission
 
-To Compress PDF: Use pdfstirling or Adobe's webapp
+To Compress PDF: https://cloudconvert.com/compress-pdf
+OR Use pdfstirling or Adobe's webapp
