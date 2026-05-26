@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_CONFIG } from '../config/api';
 import { API_KEY } from '../config/api_key';
@@ -6,11 +6,13 @@ import { Award, AwardsByCategory, AwardsStats } from '../types/awards';
 import { categorizeAwards, calculateAwardsStats } from '../utils/awards';
 import { StatsDisplay } from './achievements/StatsDisplay';
 import { AwardsList } from './achievements/AwardsList';
+import { useLanguage } from '../i18n';
 
 export function Achievements() {
+  const { t } = useLanguage();
   const [awards, setAwards] = useState<Award[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAwards = async () => {
@@ -29,7 +31,7 @@ export function Achievements() {
         setAwards(response.data.data);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch awards');
+        setErrorKey('achievements.loadingError');
         setLoading(false);
       }
     };
@@ -41,7 +43,7 @@ export function Achievements() {
     return (
       <section id="achievements" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12">Our Achievements</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">{t('achievements.title')}</h2>
           <div className="flex justify-center">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-pink-400 border-t-transparent"></div>
           </div>
@@ -50,12 +52,12 @@ export function Achievements() {
     );
   }
 
-  if (error) {
+  if (errorKey) {
     return (
       <section id="achievements" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12">Our Achievements</h2>
-          <div className="text-center text-red-500">{error}</div>
+          <h2 className="text-4xl font-bold text-center mb-12">{t('achievements.title')}</h2>
+          <div className="text-center text-red-500">{t(errorKey)}</div>
         </div>
       </section>
     );
@@ -67,7 +69,7 @@ export function Achievements() {
   return (
     <section id="achievements" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-center mb-12">Our Achievements</h2>
+        <h2 className="text-4xl font-bold text-center mb-12">{t('achievements.title')}</h2>
         <StatsDisplay stats={stats} />
         <AwardsList awardsByCategory={awardsByCategory} />
       </div>

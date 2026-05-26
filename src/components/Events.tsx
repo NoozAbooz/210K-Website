@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CalendarIcon, MapPinIcon, TrophyIcon } from 'lucide-react';
 import { API_CONFIG } from '../config/api';
 import { API_KEY } from '../config/api_key';
 import { EventDetails, Award } from '../types/awards';
+import { useLanguage } from '../i18n';
 
 interface Event extends EventDetails {
   awards?: Award[];
 }
 
 export function Events() {
+  const { locale, t } = useLanguage();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchEventDetails = async (eventId: number) => {
@@ -89,7 +91,7 @@ export function Events() {
         setEvents(sortedEvents);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch events');
+        setErrorKey('events.loadingError');
         setLoading(false);
       }
     };
@@ -101,11 +103,16 @@ export function Events() {
     return new Date(endDate) < new Date();
   };
 
+  const formatDate = (date: string) => {
+    const dateObject = new Date(date);
+    return new Intl.DateTimeFormat(locale).format(dateObject);
+  };
+
   if (loading) {
     return (
       <section id="events" className="py-20 bg-pink-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12">Our Events</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">{t('events.title')}</h2>
           <div className="flex justify-center">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-pink-400 border-t-transparent"></div>
           </div>
@@ -114,12 +121,12 @@ export function Events() {
     );
   }
 
-  if (error) {
+  if (errorKey) {
     return (
       <section id="events" className="py-20 bg-pink-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-12">Our Events</h2>
-          <div className="text-center text-red-500">{error}</div>
+          <h2 className="text-4xl font-bold text-center mb-12">{t('events.title')}</h2>
+          <div className="text-center text-red-500">{t(errorKey)}</div>
         </div>
       </section>
     );
@@ -131,11 +138,11 @@ export function Events() {
   return (
     <section id="events" className="py-20 bg-pink-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-center mb-12">Our Events</h2>
+        <h2 className="text-4xl font-bold text-center mb-12">{t('events.title')}</h2>
         
         {upcomingEvents.length > 0 && (
           <>
-            <h3 className="text-2xl font-semibold mb-6">Upcoming Events</h3>
+            <h3 className="text-2xl font-semibold mb-6">{t('events.upcoming')}</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               {upcomingEvents.map((event) => (
                 <div
@@ -148,8 +155,7 @@ export function Events() {
                       <div className="flex items-center space-x-3">
                         <CalendarIcon className="h-5 w-5 text-pink-400" />
                         <span className="text-gray-600">
-                          {new Date(event.start).toLocaleDateString()} -{' '}
-                          {new Date(event.end).toLocaleDateString()}
+                          {formatDate(event.start)} - {formatDate(event.end)}
                         </span>
                       </div>
                       <div className="flex items-center space-x-3">
@@ -168,7 +174,7 @@ export function Events() {
 
         {pastEvents.length > 0 && (
           <>
-            <h3 className="text-2xl font-semibold mb-6">Past Events</h3>
+            <h3 className="text-2xl font-semibold mb-6">{t('events.past')}</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {pastEvents.map((event) => (
                 <div
@@ -184,8 +190,7 @@ export function Events() {
                       <div className="flex items-center space-x-3">
                         <CalendarIcon className="h-5 w-5 text-pink-400" />
                         <span className="text-gray-600">
-                          {new Date(event.start).toLocaleDateString()} -{' '}
-                          {new Date(event.end).toLocaleDateString()}
+                          {formatDate(event.start)} - {formatDate(event.end)}
                         </span>
                       </div>
                       <div className="flex items-center space-x-3">
@@ -196,7 +201,7 @@ export function Events() {
                       </div>
                       {event.awards && event.awards.length > 0 && (
                         <div className="mt-4">
-                          <h4 className="text-lg font-semibold">Awards Won:</h4>
+                          <h4 className="text-lg font-semibold">{t('events.awardsWon')}</h4>
 
                             <ul className="list-none p-0 m-0">
                               {event.awards.map((award) => (

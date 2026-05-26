@@ -1,13 +1,14 @@
-import React from 'react';
-import { AwardsByCategory, AWARD_DESCRIPTIONS } from '../../types/awards';
-import { Medal } from 'lucide-react';
+import { AwardsByCategory } from '../../types/awards';
+import { useLanguage, getAwardDescriptions } from '../../i18n';
 
 interface Props {
   awardsByCategory: AwardsByCategory;
 }
 
 export function AwardsList({ awardsByCategory }: Props) {
+  const { language, t } = useLanguage();
   const categories: (keyof AwardsByCategory)[] = ['Excellence', 'Champion', 'Other'];
+  const awardDescriptions = getAwardDescriptions(language);
 
   return (
     <div className="space-y-8">
@@ -15,9 +16,9 @@ export function AwardsList({ awardsByCategory }: Props) {
         <div key={category} className="bg-white rounded-xl p-6 shadow-md">
           <div className="flex items-center space-x-3 mb-4">
             {/* <Medal className="h-6 w-6 text-pink-400" /> */}
-            <h3 className="text-xl font-semibold">{category}</h3>
+            <h3 className="text-xl font-semibold">{t(`awards.categories.${category}`)}</h3>
           </div>
-          <p className="text-gray-600 mb-4 text-sm">{AWARD_DESCRIPTIONS[category]}</p>
+          <p className="text-gray-600 mb-4 text-sm">{awardDescriptions[category]}</p>
           <div className="grid gap-4">
             {awardsByCategory[category].map((award) => (
               <div
@@ -30,7 +31,7 @@ export function AwardsList({ awardsByCategory }: Props) {
                 </div>
                 {award.qualifications && award.qualifications.length > 0 && (
                   <div className="mt-2 text-sm text-pink-600">
-                    Qualifies to: {award.qualifications.join(', ')}
+                    {t('awards.qualifiesTo')} {award.qualifications.join(', ')}
                   </div>
                 )}
               </div>

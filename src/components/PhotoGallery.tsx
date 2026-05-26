@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLanguage } from '../i18n';
 
 interface GallerySection {
   name: string;
+  nameKey?: string;
   photos: string[];
 }
 
@@ -14,6 +16,7 @@ const formatSectionName = (name: string): string => {
 };
 
 export function PhotoGallery() {
+  const { t } = useLanguage();
   const [sections, setSections] = useState<GallerySection[]>([]);
 
   useEffect(() => {
@@ -37,6 +40,7 @@ export function PhotoGallery() {
         // Convert map to array of sections
         const sectionArray: GallerySection[] = Array.from(sectionMap).map(([name, photos]) => ({
           name: formatSectionName(name),
+          nameKey: name === 'Push Back' ? 'gallery.sections.pushBack' : undefined,
           photos: photos
         }));
 
@@ -51,10 +55,12 @@ export function PhotoGallery() {
 
   return (
     <section  id="photos" className="px-20">
+      <div className="space-y-8 py-20">
+        <h1 className="text-5xl font-bold text-center">{t('gallery.title')}</h1>
+      </div>
       {sections.map((section) => (
         <div key={section.name} className="space-y-8 py-20">
-          <h1 className="text-5xl font-bold text-center">Photos</h1>
-          <h3 className="text-2xl underline font-semibold text-center">{section.name}</h3>
+          <h3 className="text-2xl underline font-semibold text-center">{section.nameKey ? t(section.nameKey) : section.name}</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {section.photos.map((photo, index) => (
               <div 
@@ -63,7 +69,7 @@ export function PhotoGallery() {
               >
                 <img
                   src={photo}
-                  alt={`${section.name} photo ${index + 1}`}
+                  alt={`${section.nameKey ? t(section.nameKey) : section.name} photo ${index + 1}`}
                   className="w-full h-full object-cover object-center"
                   loading="lazy"
                 />

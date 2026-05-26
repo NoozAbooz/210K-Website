@@ -1,11 +1,14 @@
 import React from 'react';
+import { useLanguage } from '../i18n';
 
 export function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="w-full py-6 bg-gradient-to-br from-pink-50 to-white text-center">
       <div className="container mx-auto px-4">
         <p className="text-gray-600">
-          Made with <span className="text-pink-500">💖</span> on {' '}
+          {t('footer.madeWith')} <span className="text-pink-500">💖</span> {t('footer.onGitHub')} {' '}
           <a 
             href="https://github.com/NoozAbooz/210K-Website" 
             target="_blank" 

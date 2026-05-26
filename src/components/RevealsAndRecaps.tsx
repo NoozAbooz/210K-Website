@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Play, X, ExternalLink } from 'lucide-react';
+import { useLanguage } from '../i18n';
 
 interface VideoItem {
   id: string;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   thumbnail: string;
   youtubeUrl: string;
 }
@@ -13,29 +14,29 @@ interface VideoItem {
 const sampleVideos: VideoItem[] = [
   {
     id: '1',
-    title: 'Winter Autonomous Showcase | VRC Push Back',
-    description: 'Filmed at STEMIA LCQ. Edited by Michael.',
+    titleKey: 'videos.winterAutonomous.title',
+    descriptionKey: 'videos.winterAutonomous.description',
     thumbnail: 'https://img.youtube.com/vi/2XSR1ckcpsE/sddefault.jpg',
     youtubeUrl: 'https://www.youtube.com/watch?v=2XSR1ckcpsE'
   },
   {
     id: '2',
-    title: 'One World @ UCBerk Recap | VRC Push Back',
-    description: 'Judges Award. Edited by Henry 55288A',
+    titleKey: 'videos.oneWorld.title',
+    descriptionKey: 'videos.oneWorld.description',
     thumbnail: 'https://img.youtube.com/vi/A2ZGF0ona-g/sddefault.jpg',
     youtubeUrl: 'https://www.youtube.com/watch?v=A2ZGF0ona-g'
   },
   {
     id: '3',
-    title: 'MoA Signature Event Recap | VRC Push Back',
-    description: 'Recap of our participation in the Mall of America Signature Event. Edited by Michael',
+    titleKey: 'videos.moaSignature.title',
+    descriptionKey: 'videos.moaSignature.description',
     thumbnail: 'https://img.youtube.com/vi/-CFn_fpI_Yw/sddefault.jpg',
     youtubeUrl: 'https://www.youtube.com/watch?v=-CFn_fpI_Yw' 
   },
   {
 	  id: '4',
-	  title: 'Elimination Auton Showcase | VRC High Stakes',
-	  description: 'Filmed w/ team 210Z during the 2025 Alberta Provincials.',
+	  titleKey: 'videos.eliminationAuton.title',
+	  descriptionKey: 'videos.eliminationAuton.description',
 	  thumbnail: 'https://img.youtube.com/vi/U3ehQVyWL6o/sddefault.jpg',
 	  youtubeUrl: 'https://www.youtube.com/watch?v=U3ehQVyWL6o'
   },
@@ -49,6 +50,7 @@ const sampleVideos: VideoItem[] = [
 ];
 
 export function RevealsAndRecaps() {
+  const { t } = useLanguage();
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -73,7 +75,7 @@ export function RevealsAndRecaps() {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Reveals & Recaps
+              {t('reveals.title')}
             </span>
           </h2>
           {/* <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -92,7 +94,7 @@ export function RevealsAndRecaps() {
               <div className="relative overflow-hidden rounded-t-xl">
                 <img
                   src={video.thumbnail}
-                  alt={video.title}
+                  alt={t(video.titleKey)}
                   className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -103,10 +105,10 @@ export function RevealsAndRecaps() {
               </div>
               <div className="p-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">
-                  {video.title}
+                  {t(video.titleKey)}
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  {video.description}
+                  {t(video.descriptionKey)}
                 </p>
               </div>
             </div>
@@ -119,7 +121,7 @@ export function RevealsAndRecaps() {
             <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
               <div className="flex items-center justify-between p-4 border-b">
                 <h3 className="text-xl font-semibold text-gray-800">
-                  {selectedVideo.title}
+                  {t(selectedVideo.titleKey)}
                 </h3>
                 <div className="flex items-center space-x-3">
                   <a
@@ -129,7 +131,7 @@ export function RevealsAndRecaps() {
                     className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors duration-200"
                   >
                     <ExternalLink className="h-4 w-4" />
-                    <span>Open in YouTube</span>
+                    <span>{t('reveals.openInYoutube')}</span>
                   </a>
                   <button
                     onClick={closeVideo}
@@ -143,7 +145,7 @@ export function RevealsAndRecaps() {
                 <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                   <iframe
                     src={getYouTubeEmbedUrl(selectedVideo.youtubeUrl)}
-                    title={selectedVideo.title}
+                    title={t(selectedVideo.titleKey)}
                     className="absolute inset-0 w-full h-full rounded-lg"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -152,7 +154,7 @@ export function RevealsAndRecaps() {
                 </div>
                 <div className="mt-4">
                   <p className="text-gray-600 leading-relaxed">
-                    {selectedVideo.description}
+                    {t(selectedVideo.descriptionKey)}
                   </p>
                 </div>
               </div>

@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AwardsStats } from '../../types/awards';
 import { TrophyIcon, GlobeIcon, MountainSnowIcon } from 'lucide-react';
 import { API_CONFIG } from '../../config/api';
 import { API_KEY } from '../../config/api_key';
+import { useLanguage } from '../../i18n';
 
 interface Props {
   stats: AwardsStats;
 }
 
 export function StatsDisplay({ stats }: Props) {
+  const { t } = useLanguage();
   const [globalRank, setGlobalRank] = useState<number | null>(null);
   const [regionalRank, setRegionalRank] = useState<number | null>(null);
   const [totalTeamCount, setTotalTeamCount] = useState<number>(0);
@@ -76,13 +78,13 @@ export function StatsDisplay({ stats }: Props) {
     <div className="bg-pink-50 rounded-xl p-6 mb-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-          <h4 className="text-lg font-semibold mb-2">Global Skills Ranking</h4>
+          <h4 className="text-lg font-semibold mb-2">{t('stats.globalSkillsRanking')}</h4>
           <p className="text-3xl font-bold text-pink-500">
             <GlobeIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
-            Top {globalRank ? `${(globalRank / totalTeamCount * 100).toFixed(2)}` : '-'}%
+            {t('stats.topPercent', { percent: globalRank ? (globalRank / totalTeamCount * 100).toFixed(2) : '-' })}
           </p>
           <p className="text-1xl font-bold text-pink-500">
-            {globalRank ? `#${globalRank}` : '-'} out of {totalTeamCount}
+            {globalRank ? `#${globalRank}` : '-'} {t('stats.outOf', { total: totalTeamCount })}
           </p>
           {/* <p className="text-3xl font-bold text-pink-500">
             <GlobeIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
@@ -93,25 +95,24 @@ export function StatsDisplay({ stats }: Props) {
           </p> */}
         </div>
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-          <h4 className="text-lg font-semibold mb-2">Regional Skills Ranking</h4>
+          <h4 className="text-lg font-semibold mb-2">{t('stats.regionalSkillsRanking')}</h4>
           <p className="text-3xl font-bold text-pink-500">
             <MountainSnowIcon className="inline-block h-5 w-5 text-pink-400 mr-2" />
-            {/* {regionalRank ? `#${regionalRank}` : '-'} */}
-            {'#1'}
+            {regionalRank ? `#${regionalRank}` : '-'}
           </p>
           <p className="text-1xl font-bold text-pink-500">
-            Within Alberta
+            {t('stats.withinAlberta')}
           </p>
         </div>
       </div>
 
       <div className="flex items-center justify-center space-x-4 mb-6">
         <TrophyIcon className="h-8 w-8 text-pink-400" />
-        <h3 className="text-3xl font-bold">Awards this Season: {stats.total}</h3>
+        <h3 className="text-3xl font-bold">{t('stats.awardsThisSeason', { total: stats.total })}</h3>
       </div>
       
       <div className="flex items-center justify-center mb-6">
-        <h3 className="text-2xl font-bold">Cumulative Awards: {stats.total + 22}</h3>
+        <h3 className="text-2xl font-bold">{t('stats.cumulativeAwards', { total: stats.total + 22 })}</h3>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
