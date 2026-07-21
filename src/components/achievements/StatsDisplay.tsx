@@ -20,7 +20,7 @@ export function StatsDisplay({ stats }: Props) {
     const fetchSkillsRankings = async () => {
       try {
         const response = await axios.get(
-          `https://www.robotevents.com/api/seasons/${API_CONFIG.SEASON_ID}/skills`,
+          `https://events.vex.com/api/seasons/${API_CONFIG.SEASON_ID}/skills`,
           {
             headers: {
               Authorization: `Bearer ${API_KEY.TOKEN}`
@@ -33,7 +33,7 @@ export function StatsDisplay({ stats }: Props) {
         const HSTeamCount = rankings.length;
 
         const response2 = await axios.get(
-          `https://www.robotevents.com/api/seasons/${API_CONFIG.SEASON_ID}/skills`,
+          `https://events.vex.com/api/seasons/${API_CONFIG.SEASON_ID}/skills`,
           {
             headers: {
               Authorization: `Bearer ${API_KEY.TOKEN}`

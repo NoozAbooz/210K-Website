@@ -6,7 +6,7 @@ npm i
 npm run dev
 ```
 
-This site requires a robotevents.com API key. After applying for API access, make a file at `src/config/api_key.ts` with the following:
+This site requires events.vex.com API key. After applying for API access, make a file at `src/config/api_key.ts` with the following:
 ```
 export const API_KEY = {
   TOKEN: 'API KEY HERE',
