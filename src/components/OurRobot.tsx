@@ -10,18 +10,18 @@ const seasonData = {
   'push-back': {
     nameKey: 'ourRobot.seasons.pushBack.name',
     year: '2025-2026',
-    modelPath: '/models/PB/MOA.glb',
-    modelScale: [0.02, 0.02, 0.02] as [number, number, number],
-    modelPosition: [0, 0, 0] as [number, number, number],
+    modelPath: '/models/PB/ruigoon.glb',
+    modelScale: [18, 18, 18] as [number, number, number],
+    modelPosition: [0, -3, 0] as [number, number, number],
     images: {
       left: { src: '/models/PB/1.png', altKey: 'ourRobot.faceView', titleKey: 'ourRobot.faceView' },
       right: { src: '/models/PB/2.png', altKey: 'ourRobot.backView', titleKey: 'ourRobot.backView' }
     },
     specs: {
-      dimensions: '14.5" × 13.5" × 14"',
-      weightKey: 'ourRobot.specs.pushBackWeight',
+      dimensions: '',
+      weightKey: '',
       driveSystem: '6-motor 450RPM 3.25" Omnis',
-      motors: '2x11w Intake'
+      motors: '2x5.5w Intake'
     }
   },
   'high-stakes': {
@@ -184,12 +184,12 @@ export function OurRobot() {
                   onCreated={() => setIsLoading(false)}
                   key={selectedSeason} // Force re-render when season changes
                 >
-                  <ambientLight intensity={0.6} />
-                  <directionalLight position={[10, 10, 5]} intensity={0.8} />
+                  <ambientLight intensity={0.2} />
+                  <directionalLight position={[10, 10, 5]} intensity={0.1} />
                   <pointLight position={[-10, -10, -10]} intensity={0.4} />
                   <spotLight 
                     position={[0, 10, 0]} 
-                    intensity={0.5} 
+                    intensity={0.1} 
                     angle={0.3} 
                     penumbra={0.5} 
                   />
