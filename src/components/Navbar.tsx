@@ -1,5 +1,5 @@
 import React from 'react';
-import { Languages } from 'lucide-react';
+import { Languages, InstagramIcon, PlaySquareIcon } from 'lucide-react';
 import { LANGUAGE_OPTIONS, useLanguage, type Language } from '../i18n';
 
 export function Navbar() {
@@ -50,6 +50,27 @@ export function Navbar() {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <a
+                href="https://www.instagram.com/210kawaiikittens/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-gray-600 hover:text-pink-500 transition-colors duration-200"
+              >
+                <InstagramIcon className="h-5 w-5" />
+              </a>
+              <a
+                href="https://www.youtube.com/@210.kawaii"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="text-gray-600 hover:text-pink-500 transition-colors duration-200"
+              >
+                <PlaySquareIcon className="h-5 w-5" />
+              </a>
             </div>
           </div>
         </div>
